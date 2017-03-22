@@ -1,7 +1,9 @@
 Hello there
 ----------------
 
-Here is private repo for one of my pet project
+Here is private repo for one of my pet project 
+
+It's my own implementation of good ol' facemash in Django
 
 
 More about installation read in `/docs`  
