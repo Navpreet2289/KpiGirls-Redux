@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+    {{ block.super }} | {{ profile.user.get_full_name }}
+{% endblock %}
+
+
+
+{% block body %}
+
+<div class="row m-b-lg">
+    <div class="col-sm-8 col-sm-offset-2">
+        <h1>{% trans "Форма для фото на сайті" %}</h1>
+        <form method="POST" enctype="multipart/form-data"  class="post-form">{% csrf_token %}
+
+            <div class="col-sm-2 col-md-3 col-md-offset-1 col-lg-2 col-lg-offset-2">
+                <div class="form-group">
+                    <img alt="" id="image_avatar" class="img-thumbnail" src="{{ user.facemash.photo_sm.url }}">
+                    <span style="display:none">{{ form.photo }}</span>
+                </div>
+                <a id="browse" class="btn btn-block btn-warning fa fa-upload fa-lg"> {% trans 'ЗАВАНТАЖИТИ' %}</a>
+            </div>
+
+
+            <div class="form-group">
+                <input class="btn" type="submit" {% trans 'ЗЕБРЕГТИ' %}>
+                <a href="{{ user.profile.get_absolute_url }}" class="btn btn-primary"> <span class="fa fa-arrow-left"></span>{% trans 'НАЗАД' %}</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock body %}
+
+
+
+{% block js %}
+{{ block.super }}
+{% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <script type="text/javascript">
+                toastr.warning("{{ error|escape }}")
+            </script>
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+<script type="text/javascript">
+$('#browse').click(function(){
+    $(this).parent().find('input').click();
+});
+
+
+document.getElementById("id_photo").onchange = function () {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        // get loaded data and render thumbnail.
+        document.getElementById("image_avatar").src = e.target.result;
+    };
+
+    // read the image file as a data URL.
+    reader.readAsDataURL(this.files[0]);
+};
+
+</script>
+{% endblock js %}

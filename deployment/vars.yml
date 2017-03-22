@@ -1,0 +1,7 @@
+project_group: webapps
+project_name: girls_proj
+remote_host: bitbucket.org
+project_database: db_girls_proj
+project_root: /var/webapps/girls_proj
+project_repo: git@bitbucket.org:Artem_Bernatskyy/girlsredux.git
+project_database_user: girls_user_dbmgjhs729

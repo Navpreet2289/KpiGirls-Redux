@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+{% load mathfilters %}
+
+
+{% block body %}
+
+<div class="row animated fadeInRight">
+    <div class="col-sm-4">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>{% trans 'Деталі про '%} {{ object }}</h5>
+            </div>
+            <div>
+                <div class="ibox-content no-padding border-left-right">
+                    <img alt="image" class="img-responsive" src="{{ object.photo.url }}">
+                </div>
+                <div class="ibox-content profile-content">
+                    <h4><strong>{{ object }}</strong></h4>
+                    <p><strong>{% trans 'Статус' %}</strong> {{ object.status|default:"-" }}</p>
+                    <p><strong>{% trans 'Сімейний статус' %}</strong> {{ object.get_relation }}</p>
+                    <div class="row m-t-lg">
+                        <div class="col-md-4">
+                            <h5><strong>{{ object.get_hits_count }}</strong> {% trans "переглядів" %}</h5>
+                        </div>
+                    </div>
+                    <div class="user-button">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button onclick="location.href='{{ object.get_vk }}';" type="button" class="btn btn-primary btn-sm btn-block"><i class="fa fa-envelope"></i> {% trans "Написати" %} </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-8">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>{{ object.first_name }} {% trans "відносно інших дівчат" %}</h5>
+            </div>
+            <div class="ibox-content">
+                <div>
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>{% trans "Коментарі" %}</h5>
+            </div>
+            <div class="ibox-content">
+
+                <div>
+                    <div id="disqus_thread"></div>
+                    <script>
+
+                    /**
+                    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+                    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+                    /*
+                    var disqus_config = function () {
+                    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+                    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                    };
+                    */
+                    (function() { // DON'T EDIT BELOW THIS LINE
+                    var d = document, s = d.createElement('script');
+                    s.src = 'https://kpigirls.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                    })();
+                    </script>
+                    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                                
+                                                    
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+{% endblock body %}
+
+
+{% block js %}
+    <!-- ChartJS-->
+    <script src="{% static 'theme/js/plugins/chartJs/Chart.min.js' %}"></script>
+    <script type="text/javascript">
+    $(function () {
+
+        var radarData = {
+            labels: ["Рейтинг", "rd коефіцієнт", "sigma коефіцієнт", "id"],
+            datasets: [
+                {
+                    label: "{{ object.name }}",
+                    backgroundColor: "rgba(26,179,148,0.2)",
+                    borderColor: "#c81010",
+                    data: [{{object.ratings|add:"0"}}, {{ object.rd|mul:10|add:'0'}}, {{ object.sigma|mul:20000|add:'0' }}, {{ object.vk_id|div:200000|add:"0" }}]
+                },
+                {
+                    label: "Average",
+                    backgroundColor: "rgba(220,220,220,0.2)",
+                    borderColor: "#f9b240",
+                    data: [{{ avarage.rating|add:"0"}}, {{ avarage.rd|mul:10|add:'0'}}, {{ avarage.sigma|mul:20000|add:'0' }}, {{ avarage.vk_aver|div:200000|add:"0" }}]
+                },
+            ]
+        };
+
+        var radarOptions = {
+            responsive: true
+        };
+
+        var ctx5 = document.getElementById("radarChart").getContext("2d");
+        new Chart(ctx5, {type: 'radar', data: radarData, options:radarOptions});
+
+    });
+    </script>
+
+{% endblock js %}

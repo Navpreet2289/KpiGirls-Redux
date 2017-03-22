@@ -1,0 +1,12 @@
+[development]
+128.199.46.9
+
+[development:vars]
+vm=0
+nickname=production
+ansible_ssh_port="{{ lookup('file', '/home/artem/Desktop/GirlsRedux/src/deployment/credentials/production/ssh_port') }}"
+ansible_ssh_user="{{ lookup('file', '/home/artem/Desktop/GirlsRedux/src/deployment/credentials/production/super_user_name') }}"
+branch=develop
+server_port=80
+server_hostname=128.199.46.9
+process_bind=127.0.0.1:8000

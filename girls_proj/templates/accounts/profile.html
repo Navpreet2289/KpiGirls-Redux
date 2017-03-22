@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+
+{% block title %}
+    {{ block.super }} | {{ profile.user.get_full_name }}
+{% endblock %}
+
+
+
+
+{% block body %}
+
+<div class="row m-b-lg m-t-lg">
+
+    <div class="btn-group pull-right"><a class="btn btn-w-m btn-success" href="{% url 'accounts:profile_update' request.user.profile.slug %}" type="button">{% trans "Редагувати" %} <span class=""><i class="fa fa-cog"></i></span></a></div>
+
+    <div class="col-md-2 col-sm-offset-2">
+        <div class="">
+            <img src="{{ profile.get_avatar_sm }}" class="img-circle circle-border m-b-md" alt="profile">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="ibox-content">
+            <div class="">
+                <div>
+                    <h2 class="no-margins">
+                        {{ profile.user.get_full_name }}
+                    </h2>
+                    <br>
+                <address>
+                    <strong>{{ profile.user.username|default:"-" }}</strong>
+                    <br> {{ profile.address_line1|default:"-" }}
+                    <br> {{ profile.address_line2|default:"-" }}
+                    <br> {{ profile.city|default:"-" }}
+                    <br> {{ profile.state.name|default:"-" }}
+                    <br> {{ profile.postal|default:"-" }}
+                    <br> {{ profile.dob|default:"-" }}
+                    <br>
+                    <abbr title="Phone">{% trans "Тел" %}:</abbr> {{ profile.phone|default:"-" }}
+                    <br>
+                    <abbr title="Cell Phone">{% trans "Мобільний" %}:</abbr> {{ profile.cell|default:"-" }}
+                </address>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+{% if profile.user.facemash %}
+<div class="row m-b-lg m-t-lg">
+
+    <div class="btn-group pull-right"><a class="btn btn-w-m btn-success" href="{% url 'facemash:update' %}" type="button">{% trans "Редагувати Фото на сайті" %} <span class=""><i class="fa fa-cog"></i></span></a></div>
+
+
+    <div class="col-md-2 col-sm-offset-2">
+        <div class="">
+            <img src="{{ profile.user.facemash.photo_sm.url }}" class="img-circle circle-border m-b-md" alt="profile">
+        </div>
+    </div>
+
+
+</div>
+{% endif %}
+
+{% endblock body %}

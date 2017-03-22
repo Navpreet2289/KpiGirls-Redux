@@ -1,0 +1,31 @@
+{% load i18n %}
+
+<div class="col-sm-4 col-sm-offset-2">
+    <a id="LeftImage" class="img-responsive facemash-shadow" data-pk="{{ contestant_1.id }}">
+        <img class="img-responsive" src="{{ contestant_1.photo.url }}" />
+        <span class="left-rating"> {{ contestant_1.ratings|add:'0' }}</span>
+    </a>
+
+    <div class="row" style="margin-top: 9px;margin-bottom: 21px;">
+        <div class="col-xs-6" style="padding-right: 4px;">
+        <a class="btn btn-block btn-outline btn-primary super-button" href="{{ contestant_1.get_absolute_url }}">{% trans "Коментувати" %}</a>
+        </div>
+        <div class="col-xs-6" style="padding-left: 4px;">        
+        <a class="btn btn-block btn-outline btn-primary super-button" href="{{ contestant_1.get_vk }}" target="_blank">vk</a>
+        </div>
+    </div>
+</div>
+<div class="col-sm-4">
+    <a id="RightImage" class="img-responsive facemash-shadow" data-pk="{{ contestant_2.id }}">
+        <img class="img-responsive" src="{{ contestant_2.photo.url }}" />
+        <span class="right-rating"> {{ contestant_2.ratings|add:'0' }}</span>
+    </a>
+    <div class="row" style="margin-top: 9px;margin-bottom: 21px;">
+        <div class="col-xs-6" style="padding-right: 4px;">
+        <a class="btn btn-block btn-outline btn-primary super-button" href="{{ contestant_2.get_absolute_url }}">{% trans "Коментувати" %}</a>
+        </div>
+        <div class="col-xs-6" style="padding-left: 4px;">        
+        <a class="btn btn-block btn-outline btn-primary super-button" href="{{ contestant_2.get_vk }}" target="_blank">vk</a>
+        </div>
+    </div>
+</div>

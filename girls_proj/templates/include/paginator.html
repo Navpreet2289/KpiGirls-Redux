@@ -1,0 +1,27 @@
+{% load i18n %}
+{% load spurl %}
+
+
+{% if is_paginated %}
+<div class="text-center">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li><a href="{% spurl base=request.get_full_path set_query='page={{page_obj.previous_page_number}}' %}"><i class="fa fa-angle-left"></i></a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="active"><span>{{ i }}</li>
+      {% else %}
+        <li><a href="{% spurl base=request.get_full_path set_query='page={{i}}' %}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li><a href="{% spurl base=request.get_full_path set_query='page={{page_obj.next_page_number}}' %}"><i class="fa fa-angle-right"></i></a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+</div>
+{% endif %}

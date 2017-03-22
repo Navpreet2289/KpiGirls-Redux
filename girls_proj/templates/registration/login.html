@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+
+{% block css %}
+<link href="{% static 'plugins/bootstrap-social-gh-pages/bootstrap-social.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block body %}
+<div class="middle-box text-center loginscreen animated fadeInDown">
+   <div class="ibox" style="box-shadow: 1px 0px 1px 1px rgba(0,0,0,.1);">
+   <div class="ibox-content">
+      <h3>Вітаємо на KpiGirls</h3>
+      <p class="login-style">
+         <strong>Хлопці</strong> після логіну зможуть додавати нових дівчат
+      </p>
+      <p class="login-style">
+         <strong>Дівчата</strong> після логіну зможуть змінити своє фото на сайті
+         <!--Continually expanded and constantly improved Inspinia Admin Them (IN+)-->
+      </p>
+        <a style="margin-bottom: 8px;" href="{% url 'social:begin' 'facebook' %}" class="btn btn-block btn-social btn-facebook">
+          <span class="fa fa-facebook"></span>
+          Sign in with Facebook
+        </a>
+        <a href="{% url 'social:begin' 'vk-oauth2' %}" class="btn btn-block btn-social btn-vk">
+          <span class="fa fa-vk"></span>
+          Sign in with Vk
+        </a>
+    </div>
+   </div>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+
+
+{% block body %}
+<div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <h2>
+                        {% if not q %}{% trans "Давайте шукати щось" %}{% else %}
+                        {% trans "Пошук по" %}: <span class="text-navy">{{ q }}</span>
+                        {% endif %}
+                    </h2>
+                    <small>{% trans "Пошук працює по дівчатах, акаунтах та id" %}</small>
+
+                    <div class="search-form">
+                        <form action="" method="get">
+                            <div class="input-group">
+                                <input type="text" placeholder="{% trans 'Шукати по'%}" value="{{ q|default:"" }}" autofocus name="q" class="form-control input-lg">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-lg btn-primary" type="submit">
+                                        {% trans "Вперед" %} !
+                                    </button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    {% for result in object_list %}
+                        <div class="search-result">
+                            <h3><a href="{{ result.url }}">{{ result.title }}</a></h3>
+                            <a href="{{ result.url }}" class="search-link">{{ result.url }}</a>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                    {% endfor %}
+
+                    <!-- Pagination -->
+                    {% include 'include/paginator.html' %}
+
+                </div>
+            </div>
+        </div>
+</div>
+{% endblock body %}

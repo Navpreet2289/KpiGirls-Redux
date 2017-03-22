@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+
+{% block body %}
+
+<div class="row">
+    <div class="text-center white-text upper-text">
+        <h3>{% trans "Оцінили б свою зовнішність? Ні. Будемо судити інших? ТАК!" %} </h3>
+        <h3>{% trans "Хто смаковитіший? Обери кліком" %}</h3>
+
+        <strong> {% trans "Тицни" %} <span id="LeftArrow" class="arrowkey arrow-shadow">←</span> {% trans "ліву чи праву" %}
+        <span id="RightArrow" class="arrowkey arrow-shadow">→</span>  {% trans "клавішу" %}  </strong>
+    </div>
+</div>
+
+
+<div class="row" id="replace_me">
+    {% include 'facemash/ajax.html' %}
+</div>
+
+{% endblock body %}
+
+
+{% block js %}
+    {% csrf_token %}
+    <script type="text/javascript">
+
+
+    $(document).ready(function(){
+
+        //keep keyboard locked/unlocked state in a variable
+        var locked = false;
+
+        $(document).keydown(function(e){
+
+            // if keyboard is locked: exit keydown handler
+            if( locked ){
+               return; 
+            }
+
+            // lock keyboard input
+            locked = true; 
+
+            //you could use switch statement instead of if-else if 
+            switch( e.keyCode ){
+                case 37:
+                   $("#LeftImage").click();
+                   break;
+                case 39:
+                   $("#RightImage").click();
+                   break;
+            }
+
+            // unlock keyboard input after 3 seconds
+            setTimeout( function(){ locked = false; },500); 
+
+        });
+    });
+
+
+    var csrf = $("[name='csrfmiddlewaretoken']").val();
+
+    function send_stuff(winner, loser){
+        $.ajax({
+            type: "POST",
+            url: "{% url 'facemash:play' %}",
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-CSRFToken", csrf);
+            },
+            data: {
+                "winner": winner,
+                "loser": loser,
+            },
+            success: function (data) {
+                $('#replace_me').html(data);
+            }
+        });
+    };
+
+    $("body").on('click', '#RightImage', function(){
+        winner = $('#RightImage').data("pk");
+        loser = $('#LeftImage').data("pk");
+        send_stuff(winner, loser);
+    });
+    $("body").on('click', '#LeftImage', function(){
+        winner = $('#LeftImage').data("pk");
+        loser = $('#RightImage').data("pk");
+        send_stuff(winner, loser);
+    });
+
+    </script>
+
+{% endblock js %}

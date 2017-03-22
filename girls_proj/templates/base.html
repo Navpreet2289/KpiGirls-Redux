@@ -1,0 +1,138 @@
+{% load static %}
+{% load i18n %}
+{% load compress %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KpiGirls</title>
+{% compress css %}
+    <link href="{% static 'theme/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'theme/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+    <!-- Toastr style -->
+    <link href="{% static 'theme/css/plugins/toastr/toastr.min.css' %}" rel="stylesheet">
+    {% block css %}
+    {% endblock css %}
+    <link href="{% static 'theme/css/animate.css' %}" rel="stylesheet">
+{% endcompress %}
+    <link href="{% static 'theme/css/style.css' %}" rel="stylesheet">
+
+</head>
+
+<body {% for message in messages %}onload='toastr.{{ message.tags }}("{{ message }}")' {% endfor %} class="top-navigation pace-done image-mask">
+
+    <div id="wrapper">
+        <div id="page-wrapper" class="">
+        <div class="row green-bg">
+        <nav class="navbar navbar-static-top" role="navigation">
+            <div class="navbar-header">
+                <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                    <i class="fa fa-reorder"></i>
+                </button>
+                <a href="{% url 'facemash:play' %}" class="navbar-brand">KpiGirls</a>
+            </div>
+            <div class="navbar-collapse collapse super-top" id="navbar">
+                <ul class="nav navbar-nav">
+                    <li class="{% if request.resolver_match.view_name == 'facemash:ratings' %}active{% endif %}">
+                        <a role="button" class="white-text" href="{% url 'facemash:ratings' %}"> {% trans "Рейтинг" %}</a>
+                    </li>
+
+                    {% if user.is_authenticated %}
+                    <li class="{% if request.resolver_match.namespace == 'accounts' %}active{% endif %}">
+                        <a role="button" class="white-text" href="{{ user.profile.get_absolute_url }}"> {% trans "Профіль" %}</a>
+                    </li>
+                    {% endif %}
+                    <li class="{% if request.resolver_match.view_name == 'landing:search' %}active{% endif %}">
+                        <a role="button" class="white-text" href="{% url 'landing:search' %}"> {% trans "Пошук" %}</a>
+                    </li>
+
+                    <li class="{% if request.resolver_match.view_name == 'landing:about' %}active{% endif %}">
+                        <a role="button" class="white-text" href="{% url 'landing:about' %}"> {% trans "Про проект" %}</a>
+                    </li>
+
+                </ul>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'accounts:logout' %}" class="white-text super-top super-login">
+                            <i class="fa fa-sign-out"></i> {% trans 'Вихід' %}
+                        </a>
+                        {% else %}
+                        <a href="{% url 'accounts:login' %}" class="white-text super-top super-login">
+                            <i class="fa fa-sign-out"></i> {% trans 'Логін/Реєстрація' %}
+                        </a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        </div>
+        <div class="wrapper wrapper-content">
+            {% block body %}
+            {% endblock body %}
+
+        </div>
+        <div class="footer super-footer">
+            <div>
+                <strong>Copyright</strong> KpiGirls Company &copy; 2015-2017
+            </div>
+        </div>
+
+        </div>
+    </div>
+
+
+
+{% compress js %}
+    <!-- Mainly scripts -->
+    <script src="{% static 'theme/js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'theme/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'theme/js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+    <script src="{% static 'theme/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="{% static 'theme/js/inspinia.js' %}"></script>
+    <script src="{% static 'theme/js/plugins/pace/pace.min.js' %}"></script>
+    <!-- Toastr script -->
+    <script src="{% static 'theme/js/plugins/toastr/toastr.min.js' %}"></script>
+{% endcompress %}
+
+    {% block js %}
+    {% endblock js %}
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function (d, w, c) {
+            (w[c] = w[c] || []).push(function() {
+                try {
+                    w.yaCounter43603659 = new Ya.Metrika({
+                        id:43603659,
+                        clickmap:true,
+                        trackLinks:true,
+                        accurateTrackBounce:true,
+                        webvisor:true
+                    });
+                } catch(e) { }
+            });
+
+            var n = d.getElementsByTagName("script")[0],
+                s = d.createElement("script"),
+                f = function () { n.parentNode.insertBefore(s, n); };
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+            if (w.opera == "[object Opera]") {
+                d.addEventListener("DOMContentLoaded", f, false);
+            } else { f(); }
+        })(document, window, "yandex_metrika_callbacks");
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/43603659" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+
+</body>
+
+</html>
