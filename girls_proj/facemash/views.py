@@ -51,8 +51,7 @@ class PlayView(FormView):
         # while contestant_1 == contestant_2:
         #     contestant_2 = random.choice(contestants)
 # //////////////////////////////////////////////////////
-        # last = Facemash.objects.count() - 1
-        last = 5170
+        last = Facemash.objects.count() - 1
         index1 = random.randint(0, last)
         # Here's one simple way to keep even distribution for
         # index2 while still gauranteeing not to match index1.
